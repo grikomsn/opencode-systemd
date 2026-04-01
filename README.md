@@ -51,4 +51,4 @@ Or edit service files directly in `~/.config/systemd/user/`.
 
 ---
 
-MIT License · https://ocsd.nbr.st
+MIT License · https://ocsd.nbr.st · [View pi thread](https://pi.dev/session/#dd89599ff8d6a9be8eb59161772d5ec6)
