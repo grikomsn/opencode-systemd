@@ -104,7 +104,8 @@ check_prerequisites() {
 # Download wizard script
 download_wizard() {
     local wizard_path="$HOME/.opencode/bin/opencode-systemd-wizard"
-    local temp_file=$(mktemp)
+    local temp_file
+    temp_file=$(mktemp)
     
     log_step "Downloading wizard script..."
     

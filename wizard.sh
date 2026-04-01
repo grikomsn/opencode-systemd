@@ -620,7 +620,7 @@ COMMAND=""
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        install|update|uninstall|status|logs|upgrade|version|help)
+        install|update|uninstall|status|logs|upgrade)
             COMMAND="$1"
             shift
             ;;
