@@ -3,437 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenCode Systemd — Systemd service manager for OpenCode</title>
-    <meta name="description" content="A systemd service manager for OpenCode with automatic daily upgrades. One-line install, auto-updates, configurable.">
+    <title>OpenCode Systemd</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #fafafa;
-            --bg-secondary: #f5f5f5;
-            --bg-tertiary: #eeeeee;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666666;
-            --text-muted: #888888;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --border: #e5e5e5;
-            --success: #22c55e;
-            --code-bg: #1e1e1e;
-            --code-text: #d4d4d4;
-            --font-mono: "IBM Plex Mono", "SF Mono", "Monaco", "Inconsolata", monospace;
-            --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: var(--font-sans);
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: "IBM Plex Mono", monospace;
+            background: #fafafa;
+            color: #1a1a1a;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 3rem 1.5rem;
         }
 
-        /* Header */
         header {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .logo::before {
-            content: "●";
-            color: var(--accent);
-        }
-
-        /* Hero */
-        .hero {
-            padding: 4rem 0 3rem;
-            text-align: left;
+            margin-bottom: 3rem;
         }
 
         .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-mono);
+            color: #6366f1;
             font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--accent);
-            background: rgba(99, 102, 241, 0.08);
-            padding: 0.375rem 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 1.5rem;
         }
 
         .badge::before {
-            content: "[*]";
+            content: "[*] ";
         }
 
         h1 {
-            font-family: var(--font-mono);
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
+            margin: 1rem 0 0.5rem;
         }
 
-        .subtitle {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 560px;
-            line-height: 1.6;
+        p {
+            color: #666;
+            font-size: 0.875rem;
         }
 
-        /* Install Section */
         .install {
-            padding: 2rem 0 3rem;
+            margin: 2.5rem 0;
         }
 
-        .install-label {
-            font-family: var(--font-mono);
+        .label {
             font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-muted);
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
-        }
-
-        .code-block {
-            background: var(--code-bg);
-            color: var(--code-text);
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            padding: 1.25rem 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            position: relative;
-        }
-
-        .code-block:hover {
-            opacity: 0.9;
-        }
-
-        .code-block::after {
-            content: "copy";
-            position: absolute;
-            top: 0.75rem;
-            right: 1rem;
-            font-size: 0.625rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .code-block:hover::after {
-            opacity: 1;
-        }
-
-        .code-block.copied::after {
-            content: "copied!";
-            color: var(--success);
-        }
-
-        /* Features */
-        .features {
-            padding: 3rem 0;
-            border-top: 1px solid var(--border);
-        }
-
-        .section-title {
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-
-        .feature {
-            padding: 1.5rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .feature h3 {
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
         }
 
-        .feature p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* Commands */
-        .commands {
-            padding: 3rem 0;
-            border-top: 1px solid var(--border);
-        }
-
-        .commands-list {
-            display: grid;
-            gap: 0.75rem;
-        }
-
-        .command {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 1.5rem;
-            align-items: baseline;
-            padding: 0.875rem 1rem;
-            background: var(--bg-secondary);
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem 1.25rem;
             border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.8125rem;
+            cursor: pointer;
+        }
+
+        pre:hover {
+            opacity: 0.95;
+        }
+
+        section {
+            margin: 2.5rem 0;
+            padding-top: 2.5rem;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        h2 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        h2::before {
+            content: "[*] ";
+        }
+
+        ul {
+            list-style: none;
             font-size: 0.875rem;
         }
 
-        .command-name {
-            font-family: var(--font-mono);
-            font-weight: 500;
-            color: var(--accent);
-            white-space: nowrap;
+        li {
+            padding: 0.375rem 0;
         }
 
-        .command-desc {
-            color: var(--text-secondary);
+        code {
+            color: #6366f1;
         }
 
-        /* Links */
-        .links {
-            padding: 3rem 0 4rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .links-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .link {
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            color: var(--text-primary);
+        a {
+            color: #1a1a1a;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.375rem;
         }
 
-        .link:hover {
-            color: var(--accent);
+        a:hover {
+            color: #6366f1;
         }
 
-        .link svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Footer */
         footer {
-            padding: 2rem 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        footer p {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e5e5;
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: #888;
         }
 
         footer a {
-            color: var(--text-muted);
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.75rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .command {
-                grid-template-columns: 1fr;
-                gap: 0.25rem;
-            }
+            color: #888;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <a href="https://ocsd.nbr.st" class="logo">OCSD</a>
-        </div>
+        <span class="badge">v1.0.0</span>
+        <h1>OpenCode Systemd</h1>
+        <p>Systemd service files and installer for <a href="https://opencode.ai">OpenCode</a>.<br>Runs opencode web as a user service with daily auto-upgrades.</p>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <span class="badge">v1.0.0</span>
-                <h1>OpenCode Systemd</h1>
-                <p class="subtitle">A systemd service manager for OpenCode with automatic daily upgrades. One-line install, zero configuration needed.</p>
-            </div>
-        </section>
+    <div class="install">
+        <p class="label">Install</p>
+        <pre onclick="copy(this)">curl -fsSL https://ocsd.nbr.st/install.sh | bash</pre>
+    </div>
 
-        <section class="install">
-            <div class="container">
-                <p class="install-label">Install</p>
-                <div class="code-block" onclick="copyToClipboard(this)">
-                    curl -fsSL https://ocsd.nbr.st/install.sh | bash
-                </div>
-            </div>
-        </section>
+    <section>
+        <h2>What gets created</h2>
+        <ul>
+            <li><code>~/.config/systemd/user/opencode-web.service</code> — web UI with auto-upgrade on start</li>
+            <li><code>~/.config/systemd/user/opencode-upgrade.timer</code> — daily upgrade at 05:00</li>
+            <li><code>~/.opencode/bin/opencode-systemd-wizard</code> — management CLI</li>
+        </ul>
+    </section>
 
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">[*] Features</h2>
-                <div class="features-grid">
-                    <div class="feature">
-                        <h3>One-Line Install</h3>
-                        <p>Get OpenCode running as a systemd service in seconds with automatic configuration.</p>
-                    </div>
-                    <div class="feature">
-                        <h3>Auto-Upgrades</h3>
-                        <p>Daily automatic updates via systemd timers. Configurable schedule, default 5 AM.</p>
-                    </div>
-                    <div class="feature">
-                        <h3>Web UI Ready</h3>
-                        <p>Runs OpenCode web interface on localhost with auto-restart on failure.</p>
-                    </div>
-                    <div class="feature">
-                        <h3>CLI Wizard</h3>
-                        <p>Interactive management tool for status, logs, upgrades, and configuration.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section>
+        <h2>Usage</h2>
+        <ul>
+            <li><code>opencode-systemd status</code> — check services</li>
+            <li><code>opencode-systemd upgrade</code> — manual upgrade + restart</li>
+            <li><code>opencode-systemd logs</code> — view logs</li>
+            <li><code>systemctl --user {start,stop,restart} opencode-web.service</code></li>
+        </ul>
+    </section>
 
-        <section class="commands">
-            <div class="container">
-                <h2 class="section-title">[*] Commands</h2>
-                <div class="commands-list">
-                    <div class="command">
-                        <span class="command-name">opencode-systemd status</span>
-                        <span class="command-desc">Check service status and configuration</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">opencode-systemd upgrade</span>
-                        <span class="command-desc">Run manual upgrade and restart services</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">opencode-systemd logs</span>
-                        <span class="command-desc">View service logs in follow mode</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">opencode-systemd update</span>
-                        <span class="command-desc">Update configuration or restart services</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">opencode-systemd uninstall</span>
-                        <span class="command-desc">Remove all systemd services</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section>
+        <h2>Uninstall</h2>
+        <pre onclick="copy(this)">curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash</pre>
+    </section>
 
-        <section class="links">
-            <div class="container">
-                <h2 class="section-title">[*] Links</h2>
-                <div class="links-grid">
-                    <a href="https://github.com/grikomsn/opencode-systemd" class="link">
-                        GitHub
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                        </svg>
-                    </a>
-                    <a href="https://github.com/grikomsn/opencode-systemd/blob/main/README.md" class="link">
-                        Documentation
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                        </svg>
-                    </a>
-                    <a href="https://opencode.ai" class="link">
-                        OpenCode
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
+    <section>
+        <h2>Configuration</h2>
+        <p style="margin-bottom: 0.75rem;">Install with custom settings:</p>
+        <pre onclick="copy(this)">curl -fsSL https://ocsd.nbr.st/install.sh | bash -s -- --time 03:00:00 --host 0.0.0.0 --port 8080</pre>
+        <p style="margin-top: 0.75rem;">Or edit service files directly in <code>~/.config/systemd/user/</code>.</p>
+    </section>
+
+    <section>
+        <h2>Links</h2>
+        <ul>
+            <li><a href="https://github.com/grikomsn/opencode-systemd">github.com/grikomsn/opencode-systemd</a></li>
+            <li><a href="https://github.com/grikomsn/opencode-systemd/blob/main/README.md">documentation</a></li>
+            <li><a href="https://opencode.ai">opencode.ai</a></li>
+        </ul>
+    </section>
 
     <footer>
-        <div class="container">
-            <p>MIT License · <a href="https://github.com/grikomsn">grikomsn</a> · Not affiliated with OpenCode.ai</p>
-        </div>
+        <p>MIT License · <a href="https://github.com/grikomsn">grikomsn</a> · Not affiliated with OpenCode.ai</p>
     </footer>
 
     <script>
-        function copyToClipboard(element) {
-            const text = element.textContent.trim();
-            navigator.clipboard.writeText(text).then(() => {
-                element.classList.add('copied');
-                setTimeout(() => {
-                    element.classList.remove('copied');
-                }, 2000);
-            }).catch(() => {
-                // Fallback for older browsers
-                const range = document.createRange();
-                const selection = window.getSelection();
-                range.selectNodeContents(element);
-                selection.removeAllRanges();
-                selection.addRange(range);
-                document.execCommand('copy');
-                selection.removeAllRanges();
-                element.classList.add('copied');
-                setTimeout(() => {
-                    element.classList.remove('copied');
-                }, 2000);
-            });
+        function copy(el) {
+            navigator.clipboard.writeText(el.textContent.trim());
         }
     </script>
 </body>
