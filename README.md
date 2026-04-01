@@ -20,7 +20,7 @@ A systemd service manager for [OpenCode](https://opencode.ai) with automatic dai
 ### One-line Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/install.sh | bash
+curl -fsSL https://ocsd.nbr.st/install.sh | bash
 ```
 
 ### Manual Install
@@ -85,16 +85,16 @@ journalctl --user -u opencode-web.service -f
 
 ```bash
 # Install without prompts
-curl -fsSL .../install.sh | bash -s -- --yes
+curl -fsSL https://ocsd.nbr.st/install.sh | bash -s -- --yes
 
 # Custom upgrade time (3 AM)
-curl -fsSL .../install.sh | bash -s -- --time 03:00:00
+curl -fsSL https://ocsd.nbr.st/install.sh | bash -s -- --time 03:00:00
 
 # Custom host and port
-curl -fsSL .../install.sh | bash -s -- --host 0.0.0.0 --port 8080
+curl -fsSL https://ocsd.nbr.st/install.sh | bash -s -- --host 0.0.0.0 --port 8080
 
 # All options combined
-curl -fsSL .../install.sh | bash -s -- --yes --time 03:00:00 --host 0.0.0.0 --port 8080
+curl -fsSL https://ocsd.nbr.st/install.sh | bash -s -- --yes --time 03:00:00 --host 0.0.0.0 --port 8080
 ```
 
 ### Service Files
@@ -114,17 +114,17 @@ Files are located in `~/.config/systemd/user/`.
 ### One-line Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash
+curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash
 ```
 
 ### Options
 
 ```bash
 # Uninstall without prompts
-curl -fsSL .../uninstall.sh | bash -s -- --yes
+curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- --yes
 
 # Full cleanup (remove wizard too)
-curl -fsSL .../uninstall.sh | bash -s -- --full --yes
+curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- --full --yes
 ```
 
 ## Requirements
@@ -185,8 +185,8 @@ journalctl --user -u opencode-upgrade.service -n 20
 
 ```bash
 # Uninstall and reinstall
-curl -fsSL .../uninstall.sh | bash -s -- --full --yes
-curl -fsSL .../install.sh | bash
+curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- --full --yes
+curl -fsSL https://ocsd.nbr.st/install.sh | bash
 ```
 
 ## Contributing

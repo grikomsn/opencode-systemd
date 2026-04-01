@@ -3,7 +3,7 @@
 # OpenCode Systemd - One-line Installer
 # Quick install script for opencode-systemd services
 #
-# Usage: curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/install.sh | bash
+# Usage: curl -fsSL https://ocsd.nbr.st/install.sh | bash
 #
 
 set -euo pipefail
@@ -19,7 +19,7 @@ NC='\033[0m'
 
 # Repository URL
 REPO_URL="https://github.com/grikomsn/opencode-systemd"
-RAW_URL="https://raw.githubusercontent.com/grikomsn/opencode-systemd/main"
+RAW_URL="https://ocsd.nbr.st"
 
 # Version
 VERSION="1.0.0"

@@ -3,7 +3,7 @@
 # OpenCode Systemd - Uninstaller
 # Quick uninstall script for opencode-systemd services
 #
-# Usage: curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash
+# Usage: curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash
 #
 
 set -euo pipefail
@@ -216,8 +216,8 @@ usage() {
 OpenCode Systemd Uninstaller
 
 Usage:
-  curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash
-  curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash -s -- [OPTIONS]
+  curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash
+  curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- [OPTIONS]
 
 Options:
   -y, --yes         Auto-confirm without prompts
@@ -226,13 +226,13 @@ Options:
 
 Examples:
   # Interactive uninstall
-  curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash
+  curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash
 
   # Uninstall without prompts
-  curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash -s -- --yes
+  curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- --yes
 
   # Full cleanup (remove services + wizard)
-  curl -fsSL https://raw.githubusercontent.com/grikomsn/opencode-systemd/main/uninstall.sh | bash -s -- --full --yes
+  curl -fsSL https://ocsd.nbr.st/uninstall.sh | bash -s -- --full --yes
 EOF
 }
 
