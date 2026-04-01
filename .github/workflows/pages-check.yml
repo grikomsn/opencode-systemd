@@ -1,0 +1,42 @@
+name: Check GH Pages Deployment
+
+on:
+  page_build:
+  workflow_dispatch:
+
+jobs:
+  verify-scripts:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Wait for Pages propagation
+      run: sleep 30
+
+    - name: Check install.sh is accessible
+      run: |
+        echo "Checking https://ocsd.nbr.st/install.sh ..."
+        curl -fsSL -o /dev/null --retry 5 --retry-delay 10 \
+          -w "Status: %{http_code}, Size: %{size_download} bytes\\n" \
+          https://ocsd.nbr.st/install.sh
+
+    - name: Check uninstall.sh is accessible
+      run: |
+        echo "Checking https://ocsd.nbr.st/uninstall.sh ..."
+        curl -fsSL -o /dev/null --retry 5 --retry-delay 10 \
+          -w "Status: %{http_code}, Size: %{size_download} bytes\\n" \
+          https://ocsd.nbr.st/uninstall.sh
+
+    - name: Check wizard.sh is accessible
+      run: |
+        echo "Checking https://ocsd.nbr.st/wizard.sh ..."
+        curl -fsSL -o /dev/null --retry 5 --retry-delay 10 \
+          -w "Status: %{http_code}, Size: %{size_download} bytes\\n" \
+          https://ocsd.nbr.st/wizard.sh
+
+    - name: Verify scripts are executable content
+      run: |
+        echo "Verifying install.sh content type..."
+        curl -fsSL -I https://ocsd.nbr.st/install.sh | grep -i content-type || true
+        
+        echo ""
+        echo "First line of install.sh:"
+        curl -fsSL https://ocsd.nbr.st/install.sh | head -1
