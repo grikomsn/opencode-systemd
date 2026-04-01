@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: './'
+        format: gcc
+        severity: warning
+
+  test-install:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Test install script syntax
+      run: bash -n install.sh
+    
+    - name: Test uninstall script syntax
+      run: bash -n uninstall.sh
+    
+    - name: Test wizard script syntax
+      run: bash -n wizard.sh
+
+  test-commands:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Test install --help
+      run: |
+        chmod +x install.sh
+        ./install.sh --help
+    
+    - name: Test uninstall --help
+      run: |
+        chmod +x uninstall.sh
+        ./uninstall.sh --help
+    
+    - name: Test wizard --help
+      run: |
+        chmod +x wizard.sh
+        ./wizard.sh --help

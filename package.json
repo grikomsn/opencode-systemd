@@ -1,0 +1,28 @@
+{
+  "name": "opencode-systemd",
+  "version": "1.0.0",
+  "description": "Systemd service manager for OpenCode with automatic daily upgrades",
+  "scripts": {
+    "test": "echo 'Tests not implemented yet' && exit 0",
+    "lint": "shellcheck install.sh uninstall.sh wizard.sh || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grikomsn/opencode-systemd.git"
+  },
+  "keywords": [
+    "opencode",
+    "systemd",
+    "systemd-service",
+    "linux",
+    "cli",
+    "automation",
+    "upgrade"
+  ],
+  "author": "Griko Nibras",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grikomsn/opencode-systemd/issues"
+  },
+  "homepage": "https://github.com/grikomsn/opencode-systemd#readme"
+}

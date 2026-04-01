@@ -1,0 +1,47 @@
+# OS/Editor files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.old
+
+# Test files (for local dev)
+test/
+test.sh
+test-*.sh
+*.test
+
+# Local configuration
+.env
+.env.local
+.config.local
+
+# Downloaded scripts (for local testing)
+wizard.sh.bak
+install.sh.bak
+
+# Systemd files (when testing locally)
+*.service
+*.timer
+*.socket
+
+# Package files
+*.tar.gz
+*.zip
+*.deb
+*.rpm
